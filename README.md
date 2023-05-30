@@ -42,7 +42,7 @@ Feature Files: The BDD scenarios are defined in the src/test/resources/features 
 Test Runner: The src/test/java/testRunner class acts as the test runner, allowing you to execute the test cases defined in the feature files. It coordinates the execution of scenarios and generates test reports. 
 Step Definitions: The src/test/java/stepDefinitions directory contains step definition files, including Hooks and the amazonShopping feature file. Step definitions map the Gherkin steps to the corresponding code implementation, providing the automation logic for each scenario. 
 Amazon Shopping Page: The src/test/java/pages/amazonShoppingPage class represents a Page Object Model (POM) class. It encapsulates the locators and functions related to the Amazon shopping page, allowing for better organization and maintenance of the test automation code.
-<img src="/readmePicture/Cucumber-Reports-Picture.png" alt="Cucumber-Reports-Picture">
+<img src="/readmePicture/fileStructure.png" alt="Cucumber-Reports-Picture">
 
 
 **Running the Tests**
@@ -55,8 +55,8 @@ To execute the automated tests, follow these steps:
 
 **Reporting**
 
-This project uses Cucumber's built-in reporting feature to generate detailed test reports. After running the tests, you can find the HTML reports in the target/cucumber-reports.html directory. Open the cucumber-reports.html file in a web browser to view the test execution summary, including the number of passed and failed scenarios, along with detailed step-by-step results.
-<img src="/readmePicture/fileStructure.png" alt="Files-Picture">
+This project uses Cucumber's built-in reporting feature to generate detailed test reports. After running the tests, you can find the HTML reports in the target/cucumber-reports.html directory. Open the index.html file in a web browser to view the test execution summary, including the number of passed and failed scenarios, along with detailed step-by-step results.
+<img src="/readmePicture/Cucumber-Reports-Picture.png" alt="Files-Picture">
 
 **Contributing**
 
