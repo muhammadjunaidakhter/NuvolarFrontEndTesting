@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0311ab46-6503-441a-8f3b-8767f2a1460f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/readmePicture/fileStructure.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reportingPicture/Cucumber-Reports-Picture.png" beforeDir="false" afterPath="$PROJECT_DIR$/readmePicture/Cucumber-Reports-Picture.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
