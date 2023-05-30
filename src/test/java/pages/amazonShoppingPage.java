@@ -8,14 +8,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.Optional;
 
 public class amazonShoppingPage {
 
     WebDriver driver;
     JavascriptExecutor javaScriptExecutor;
-    float initialPriceForMen;
+    float actualPriceForMen;
     float priceForMen;
-    float initialPriceForWomen;
+    float actualPriceForWomen;
     float subTotal;
     float expectedPrice;
 
@@ -35,13 +36,13 @@ public class amazonShoppingPage {
     WebElement quantityBtn;
 
     @FindBy(xpath = "//div[@class='a-section a-spacing-micro']//span[@class='a-price-whole']")
-    WebElement initialPrice1Xpath;
+    WebElement actualPrice1Xpath;
 
     @FindBy(xpath = "//div[@class='a-section a-spacing-micro']//span[@class='a-price-whole']/span")
-    WebElement initialPrice2Xpath;
+    WebElement actualPrice2Xpath;
 
     @FindBy(xpath = "//div[@class='a-section a-spacing-micro']//span[@class='a-price-whole']/following-sibling::span")
-    WebElement initialPrice3Xpath;
+    WebElement actualPrice3Xpath;
 
     @FindBy(xpath = "//input[@id='add-to-cart-button']")
     WebElement addToCartBtn;
@@ -75,18 +76,22 @@ public class amazonShoppingPage {
     }
 
     public void searchText(String text) {
+        //Enter text in search box
         waitForWebElementToAppear(searchBoxField);
         searchBoxField.sendKeys(text);
+        //Click search box icon
         waitForWebElementToAppear(searchButton);
         searchButton.click();
     }
 
-    public void addFirstProductToCart(String quantity) {
+    public void addProductToCart(String quantity) {
+        //Wait for the first product appear after clicking search box icon
         waitForWebElementToAppear(firstProductXpath);
         waitForWebElementToClickable(firstProductXpath);
         firstProductXpath.click();
         waitForWebElementToAppear(quantityBtn);
         waitForWebElementToClickable(quantityBtn);
+        //Select quantity of product
         quantityBtn.click();
         WebElement quantitySelectorXpath = driver.findElement(By.xpath("//ul[@class='a-nostyle a-list-link']/li/a[normalize-space() = '"+quantity+"']"));
         waitForWebElementToAppear(quantitySelectorXpath);
@@ -94,55 +99,90 @@ public class amazonShoppingPage {
         quantitySelectorXpath.click();
     }
 
-    public void openCart_VerifyPriceForMen(String quantity) {
-        waitForWebElementToAppear(initialPrice1Xpath);
-        waitForWebElementToAppear(initialPrice1Xpath);
-        if (driver.findElements(By.xpath("//div[@class='a-section a-spacing-micro']//span[@class='a-price-whole']/following-sibling::span")).size() != 0){
-            initialPriceForMen = Float.parseFloat(initialPrice1Xpath.getText()+initialPrice2Xpath.getAttribute("innerHTML")+initialPrice3Xpath.getText());
-        } else {
-            initialPriceForMen = Float.parseFloat(initialPrice1Xpath.getText());
-        }
-        System.out.println("Initial price for Men : " + initialPriceForMen);
+    public void openCart_VerifyPriceForMen_And_Quantity(String quantity) {
+        Integer selectedQuantity;
+        Integer expectedQuantity = Integer.parseInt(quantity);
+
+        //Get actual price of product
+        actualPriceForMen = getActualPrice();
+        System.out.println("Initial price for Men : " + actualPriceForMen);
+
+        //Click add to cart button
         waitForWebElementToAppear(addToCartBtn);
         waitForWebElementToClickable(addToCartBtn);
         addToCartBtn.click();
-        waitForWebElementToAppear(subTotalXpath);
-        waitForWebElementToClickable(subTotalXpath);
-        String value = subTotalXpath.getText().replaceAll("[^0-9.]", "");
-        subTotal = Float.parseFloat(value);
-        priceForMen = initialPriceForMen* Integer.parseInt(quantity);
+
+        //Get subtotal after adding product to cart and verify
+        subTotal = getSubTotal();
+        priceForMen = actualPriceForMen* expectedQuantity;
         Assert.assertEquals(subTotal, priceForMen, 0.01);
         System.out.println("SubTotal after 1st add to card : " + subTotal);
+
+        //Get selected product quantity and verify
+        selectedQuantity = getQuantityOf_FirstProduct();
+        Assert.assertEquals(expectedQuantity, selectedQuantity);
+
+        System.out.println("Selected quantity : " + selectedQuantity);
     }
 
-    public void openCart_VerifyPriceForWomen(String quantity) {
-        waitForWebElementToAppear(initialPrice1Xpath);
-        waitForWebElementToAppear(initialPrice1Xpath);
+    public Float getActualPrice(){
+        Float price;
+        //Product floating price is in different spans, so I get it through 3 Xpath
+        waitForWebElementToAppear(actualPrice1Xpath);
+        waitForWebElementToAppear(actualPrice1Xpath);
         if (driver.findElements(By.xpath("//div[@class='a-section a-spacing-micro']//span[@class='a-price-whole']/following-sibling::span")).size() != 0){
-            initialPriceForWomen = Float.parseFloat(initialPrice1Xpath.getText()+initialPrice2Xpath.getAttribute("innerHTML")+initialPrice3Xpath.getText());
+            price = Float.parseFloat(actualPrice1Xpath.getText()+actualPrice2Xpath.getAttribute("innerHTML")+actualPrice3Xpath.getText());
         } else {
-            initialPriceForWomen = Float.parseFloat(initialPrice1Xpath.getText());
+            price = Float.parseFloat(actualPrice1Xpath.getText());
         }
-        System.out.println("Initial price for Women : " + initialPriceForWomen);
-        waitForWebElementToAppear(addToCartBtn);
-        waitForWebElementToClickable(addToCartBtn);
-        addToCartBtn.click();
+        return price;
+    }
+
+    public Float getSubTotal(){
+        //Return the subtotal after adding product to cart
+        Float subTotalValue;
         waitForWebElementToAppear(subTotalXpath);
         waitForWebElementToClickable(subTotalXpath);
         String value = subTotalXpath.getText().replaceAll("[^0-9.]", "");
-        subTotal = Float.parseFloat(value);
-        expectedPrice = initialPriceForWomen + priceForMen;
-        Assert.assertEquals(subTotal, expectedPrice, 0.001);
-        System.out.println("SubTotal after 2nd add to card : " + subTotal);
+        subTotalValue = Float.parseFloat(value);
+        return subTotalValue;
     }
 
-    public void changeQuantity(String Quantity2, String Quantity1) throws InterruptedException {
-        waitForWebElementToAppear(firstQuantitSelectorAddToCart);
-        waitForWebElementToAppear(firstQuantitSelectorAddToCart);
-        firstQuantitSelectorAddToCart.click();
-        WebElement quantitySelector2Xpath = driver.findElement(By.xpath("//ul[@class='a-nostyle a-list-link']/li//input[@value = '"+Quantity2+"']"));
-        waitForWebElementToAppear(quantitySelector2Xpath);
-        quantitySelector2Xpath.click();
+    public Integer getQuantityOf_FirstProduct(){
+        //Return the selected quantity of first product
+        Integer openCartquantity = null;
+        WebElement openCart_First_QuantityXpath = driver.findElement(By.xpath("//div[@data-item-index='1']/div[3]/div[7]//span[@data-action='a-dropdown-button']/span[2]"));
+        return openCartquantity = Integer.parseInt(openCart_First_QuantityXpath.getText());
+    }
+
+    public void openCart_VerifyPriceFoWorMen_And_Quantity(String quantity) {
+        Integer selectedQuantity;
+        Integer expectedQuantity = Integer.parseInt(quantity);
+
+        //Get actual price of product
+        actualPriceForWomen = getActualPrice();
+        System.out.println("Initial price for Men : " + actualPriceForWomen);
+
+        //Click add to cart button
+        waitForWebElementToAppear(addToCartBtn);
+        waitForWebElementToClickable(addToCartBtn);
+        addToCartBtn.click();
+
+        //Get subtotal after adding product to cart and verify
+        subTotal = getSubTotal();
+        actualPriceForWomen = actualPriceForWomen * expectedQuantity;
+        expectedPrice = actualPriceForWomen + priceForMen;
+        Assert.assertEquals(subTotal, expectedPrice, 0.001);
+        System.out.println("SubTotal after 2nd add to card : " + subTotal);
+
+        //Get selected product quantity and verify
+        selectedQuantity = getQuantityOf_FirstProduct();
+        Assert.assertEquals(expectedQuantity, selectedQuantity);
+
+        System.out.println("Selected quantity : " + selectedQuantity);
+    }
+
+    public void changeQuantity(String Quantity2, String Quantity1) {
 
         waitForWebElementToAppear(firstQuantitSelectorAddToCart);
         waitForWebElementToAppear(firstQuantitSelectorAddToCart);
@@ -151,14 +191,23 @@ public class amazonShoppingPage {
         waitForWebElementToAppear(quantitySelector1Xpath);
         quantitySelector1Xpath.click();
 
-        waitForWebElementToAppear(subTotalXpath);
-        waitForWebElementToClickable(subTotalXpath);
-        Thread.sleep(5000);
-        String value = subTotalXpath.getText().replaceAll("[^0-9.]", "");
-        subTotal = Float.parseFloat(value);
+    }
 
-        expectedPrice = initialPriceForWomen + initialPriceForMen;
+    public void verifyTotalPrice_And_Quantity(String Quantity) throws InterruptedException {
+
+        Integer selectedQuantity;
+        Integer expectedQuantity = Integer.parseInt(Quantity);
+
+        Thread.sleep(5000);
+        subTotal = getSubTotal();;
+
+        expectedPrice = actualPriceForMen + actualPriceForWomen;
         Assert.assertEquals(subTotal, expectedPrice, 0.001);
-        System.out.println("SubTotal after after last change : " + subTotal);
+        System.out.println("SubTotal after after quantity change : " + subTotal);
+
+        selectedQuantity = getQuantityOf_FirstProduct();
+        Assert.assertEquals(expectedQuantity, selectedQuantity);
+
+        System.out.println("Changed quantity of first product : " + selectedQuantity);
     }
 }
