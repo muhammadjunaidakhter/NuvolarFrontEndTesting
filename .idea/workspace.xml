@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0311ab46-6503-441a-8f3b-8767f2a1460f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/pages/amazonShoppingPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pages/amazonShoppingPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/stepDefinitions/Hooks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/stepDefinitions/Hooks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/stepDefinitions/amazonShopping.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/stepDefinitions/amazonShopping.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/features/amazonShopping.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/amazonShopping.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +46,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/drivers" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/reportingPicture" />
     </key>
   </component>
   <component name="RunManager" selected="JUnit.testRunner">

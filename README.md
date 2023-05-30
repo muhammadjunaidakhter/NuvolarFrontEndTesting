@@ -46,6 +46,7 @@ To execute the automated tests, follow these steps:
 **Reporting**
 
 This project uses Cucumber's built-in reporting feature to generate detailed test reports. After running the tests, you can find the HTML reports in the target/cucumber-reports.html directory. Open the cucumber-reports.html file in a web browser to view the test execution summary, including the number of passed and failed scenarios, along with detailed step-by-step results.
+<img src="/reportingPicture/Cucumber-Reports-Picture.png" alt="Cucumber-Reports-Picture">
 
 **Contributing**
 
